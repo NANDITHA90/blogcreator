@@ -44,21 +44,38 @@ export class BlogAPI {
   }
 
   static async getPostBySlug(slug: string): Promise<BlogPost | null> {
-    const { data, error } = await supabase
-      .from("blog_posts")
-      .select("*")
-      .eq("slug", slug)
-      .single();
-
-    if (error) {
-      if (error.code === "PGRST116") {
-        return null;
-      }
-      console.error("Error fetching post:", error);
-      throw error;
+    // If Supabase is not configured, return null to trigger fallback
+    if (!this.isSupabaseConfigured()) {
+      console.info("Supabase not configured, using demo data");
+      return null;
     }
 
-    return data;
+    try {
+      const { data, error } = await supabase
+        .from("blog_posts")
+        .select("*")
+        .eq("slug", slug)
+        .single();
+
+      if (error) {
+        if (error.code === "PGRST116") {
+          return null; // Post not found
+        }
+        console.warn(
+          "Supabase error, falling back to demo data:",
+          error.message || error,
+        );
+        return null;
+      }
+
+      return data;
+    } catch (error) {
+      console.warn(
+        "Failed to connect to Supabase, falling back to demo data:",
+        error instanceof Error ? error.message : String(error),
+      );
+      return null;
+    }
   }
 
   static async createPost(
