@@ -81,6 +81,12 @@ export class BlogAPI {
   static async createPost(
     post: Omit<BlogPost, "id" | "created_at" | "updated_at">,
   ): Promise<BlogPost> {
+    if (!this.isSupabaseConfigured()) {
+      throw new Error(
+        "Supabase is not configured. Please set up your Supabase credentials to create posts.",
+      );
+    }
+
     const { data, error } = await supabase
       .from("blog_posts")
       .insert(post)
@@ -88,8 +94,10 @@ export class BlogAPI {
       .single();
 
     if (error) {
-      console.error("Error creating post:", error);
-      throw error;
+      console.error("Error creating post:", error.message || error);
+      throw new Error(
+        `Failed to create post: ${error.message || "Unknown error"}`,
+      );
     }
 
     return data;
@@ -99,6 +107,12 @@ export class BlogAPI {
     id: string,
     updates: Partial<Omit<BlogPost, "id" | "created_at" | "updated_at">>,
   ): Promise<BlogPost> {
+    if (!this.isSupabaseConfigured()) {
+      throw new Error(
+        "Supabase is not configured. Please set up your Supabase credentials to update posts.",
+      );
+    }
+
     const { data, error } = await supabase
       .from("blog_posts")
       .update(updates)
@@ -107,19 +121,29 @@ export class BlogAPI {
       .single();
 
     if (error) {
-      console.error("Error updating post:", error);
-      throw error;
+      console.error("Error updating post:", error.message || error);
+      throw new Error(
+        `Failed to update post: ${error.message || "Unknown error"}`,
+      );
     }
 
     return data;
   }
 
   static async deletePost(id: string): Promise<void> {
+    if (!this.isSupabaseConfigured()) {
+      throw new Error(
+        "Supabase is not configured. Please set up your Supabase credentials to delete posts.",
+      );
+    }
+
     const { error } = await supabase.from("blog_posts").delete().eq("id", id);
 
     if (error) {
-      console.error("Error deleting post:", error);
-      throw error;
+      console.error("Error deleting post:", error.message || error);
+      throw new Error(
+        `Failed to delete post: ${error.message || "Unknown error"}`,
+      );
     }
   }
 
