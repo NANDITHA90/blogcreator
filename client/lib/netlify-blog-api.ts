@@ -1,4 +1,5 @@
 import { BlogPost } from "./supabase";
+import { DemoPostStorage } from "./demo-storage";
 
 export class NetlifyBlogAPI {
   private static baseUrl =
