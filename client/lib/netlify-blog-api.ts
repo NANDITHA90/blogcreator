@@ -49,6 +49,15 @@ export class NetlifyBlogAPI {
   }
 
   static async getPostBySlug(slug: string): Promise<BlogPost | null> {
+    // In development, check if Netlify Functions are available
+    if (import.meta.env.MODE === "development" && !this.isNetlifyAvailable) {
+      const available = await this.checkNetlifyAvailability();
+      if (!available) {
+        console.info("Netlify Functions not available in development");
+        return null;
+      }
+    }
+
     try {
       const response = await fetch(`${this.baseUrl}/blog-api/${slug}`);
       if (response.status === 404) {
@@ -59,7 +68,7 @@ export class NetlifyBlogAPI {
       }
       return await response.json();
     } catch (error) {
-      console.error("Error fetching post:", error);
+      console.warn("Error fetching post from Netlify:", error);
       return null;
     }
   }
