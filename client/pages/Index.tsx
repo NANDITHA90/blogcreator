@@ -380,7 +380,7 @@ export default function Index() {
                   </div>
 
                   <div
-                    className={`grid gap-6 border-[6px] border-dashed border-[rgb(8,30,80)] ${
+                    className={`grid gap-6 border-[rgb(8,30,80)] ${
                       showFilters
                         ? "grid-cols-1 xl:grid-cols-2"
                         : "grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
