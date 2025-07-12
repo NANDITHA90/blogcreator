@@ -459,13 +459,34 @@ export default function CreatePost() {
                 <CardTitle>Publish</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
+                {!BlogAPI.isSupabaseConfigured() && (
+                  <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                    <div className="flex items-start space-x-2">
+                      <FileText className="h-4 w-4 text-blue-600 mt-0.5" />
+                      <div className="text-sm">
+                        <p className="font-medium text-blue-800 mb-1">
+                          Demo Mode
+                        </p>
+                        <p className="text-blue-700">
+                          Connect to Supabase through MCP Servers to save real
+                          posts. Buttons below will show preview mode.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
                 <div className="flex flex-col space-y-2">
                   <Button
                     onClick={() => handleSubmit("published")}
                     disabled={isSubmitting}
                     className="w-full"
                   >
-                    {isSubmitting ? "Publishing..." : "Publish Post"}
+                    {isSubmitting
+                      ? "Processing..."
+                      : BlogAPI.isSupabaseConfigured()
+                        ? "Publish Post"
+                        : "Preview Published Post"}
                   </Button>
                   <Button
                     onClick={() => handleSubmit("draft")}
@@ -474,7 +495,11 @@ export default function CreatePost() {
                     className="w-full"
                   >
                     <Save className="h-4 w-4 mr-2" />
-                    {isSubmitting ? "Saving..." : "Save as Draft"}
+                    {isSubmitting
+                      ? "Processing..."
+                      : BlogAPI.isSupabaseConfigured()
+                        ? "Save as Draft"
+                        : "Preview Draft"}
                   </Button>
                 </div>
 
@@ -482,7 +507,9 @@ export default function CreatePost() {
                   <div className="flex items-center space-x-2 mb-1">
                     <Calendar className="h-4 w-4" />
                     <span>
-                      Will be published on: {new Date().toLocaleDateString()}
+                      {BlogAPI.isSupabaseConfigured()
+                        ? `Will be published on: ${new Date().toLocaleDateString()}`
+                        : `Preview date: ${new Date().toLocaleDateString()}`}
                     </span>
                   </div>
                 </div>
