@@ -813,11 +813,7 @@ Remember that scalability is not just about handling more requests—it's about 
                   className="w-full"
                 >
                   <Save className="h-4 w-4 mr-2" />
-                  {isSubmitting
-                    ? "Processing..."
-                    : BlogAPI.isSupabaseConfigured()
-                      ? "Save Changes"
-                      : "Preview Changes"}
+                  {isSubmitting ? "Saving..." : "Save Changes"}
                 </Button>
 
                 <div className="text-sm text-muted-foreground">
