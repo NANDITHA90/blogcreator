@@ -233,7 +233,7 @@ export default function Index() {
     <div className="min-h-screen bg-gradient-to-br from-white via-brand-50/30 to-blue-50/20 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800">
       {/* Hero Section */}
       <section className="relative py-20 px-4">
-        <div className="container mx-auto text-center">
+        <div className="container mx-auto text-center border-none border">
           <div className="mb-8">
             <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-brand-600 via-brand-500 to-blue-600 bg-clip-text text-transparent">
               Welcome to QuickBlog
