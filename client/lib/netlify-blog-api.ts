@@ -156,10 +156,15 @@ export class NetlifyBlogAPI {
     if (import.meta.env.MODE === "development") {
       const available = await this.checkNetlifyAvailability();
       if (!available) {
-        // Return a simulated updated post for demo purposes
-        const now = new Date().toISOString();
+        // Update demo post in localStorage
+        const updatedPost = DemoPostStorage.updateDemoPost(id, updates);
+        if (updatedPost) {
+          return updatedPost;
+        }
 
-        return {
+        // If post not found in demo storage, create a fallback
+        const now = new Date().toISOString();
+        const fallbackPost: BlogPost = {
           id,
           title: updates.title || "Updated Post",
           content: updates.content || "Updated content",
@@ -174,6 +179,9 @@ export class NetlifyBlogAPI {
           created_at: new Date(Date.now() - 86400000).toISOString(), // 1 day ago
           updated_at: now,
         };
+
+        DemoPostStorage.saveDemoPost(fallbackPost);
+        return fallbackPost;
       }
     }
 
