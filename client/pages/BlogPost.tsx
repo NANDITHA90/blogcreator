@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { BlogAPI } from "@/lib/blog-api";
 import { BlogPost as BlogPostType } from "@/lib/supabase";
+import { DemoPostStorage } from "@/lib/demo-storage";
 import { useToast } from "@/hooks/use-toast";
 import {
   ArrowLeft,
