@@ -68,46 +68,4 @@ export class ImageUploadAPI {
 }
 
 // Future enhancement: Supabase Storage integration
-/*
-Example Supabase Storage setup:
-
-1. Create storage bucket:
-   - Go to Supabase Dashboard > Storage
-   - Create a new bucket called 'blog-images'
-   - Set appropriate RLS policies
-
-2. Update uploadImage method:
-   ```typescript
-   static async uploadImage(file: File): Promise<UploadedImage> {
-     const fileExt = file.name.split('.').pop();
-     const fileName = `${Date.now()}.${fileExt}`;
-     const filePath = `blog-images/${fileName}`;
-
-     const { data, error } = await supabase.storage
-       .from('blog-images')
-       .upload(filePath, file);
-
-     if (error) throw error;
-
-     const { data: { publicUrl } } = supabase.storage
-       .from('blog-images')
-       .getPublicUrl(filePath);
-
-     return {
-       url: publicUrl,
-       alt: file.name,
-     };
-   }
-   ```
-
-3. RLS Policies for storage:
-   ```sql
-   -- Allow authenticated users to upload
-   CREATE POLICY "Users can upload images" ON storage.objects
-     FOR INSERT WITH CHECK (auth.role() = 'authenticated');
-
-   -- Allow public read access
-   CREATE POLICY "Public read access" ON storage.objects
-     FOR SELECT USING (bucket_id = 'blog-images');
-   ```
-*/
+// See DATABASE_SETUP.md for complete setup instructions
