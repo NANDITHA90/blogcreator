@@ -24,6 +24,7 @@ export type FilterOptions = {
   selectedTags: string[];
   dateRange: "all" | "today" | "week" | "month" | "year";
   sortBy: SortOption;
+  status: "all" | "published" | "draft";
 };
 
 interface BlogFiltersProps {
