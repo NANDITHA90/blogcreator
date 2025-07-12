@@ -446,7 +446,10 @@ Remember that scalability is not just about handling more requests—it's about 
 
       toast({
         title: "Post Updated",
-        description: "Your blog post has been updated successfully.",
+        description:
+          import.meta.env.MODE === "development"
+            ? "Demo: Your blog post has been updated locally. Deploy to Netlify to persist changes."
+            : "Your blog post has been updated successfully.",
       });
 
       navigate(`/post/${updates.slug}`);
