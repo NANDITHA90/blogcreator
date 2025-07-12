@@ -233,4 +233,18 @@ export class NetlifyBlogAPI {
     // Always true since we're using Netlify Functions
     return true;
   }
+
+  static generateSlug(title: string): string {
+    return title
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/(^-|-$)/g, "");
+  }
+
+  static generateExcerpt(content: string, length: number = 150): string {
+    const plainText = content.replace(/<[^>]*>/g, "");
+    return plainText.length <= length
+      ? plainText
+      : plainText.slice(0, length) + "...";
+  }
 }
