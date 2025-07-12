@@ -788,13 +788,34 @@ Remember that scalability is not just about handling more requests—it's about 
                 <CardTitle>Update Post</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
+                {!BlogAPI.isSupabaseConfigured() && hasChanges && (
+                  <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                    <div className="flex items-start space-x-2">
+                      <AlertTriangle className="h-4 w-4 text-blue-600 mt-0.5" />
+                      <div className="text-sm">
+                        <p className="font-medium text-blue-800 mb-1">
+                          Demo Mode
+                        </p>
+                        <p className="text-blue-700">
+                          Connect to Supabase to save real changes. Button below
+                          will show preview mode.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
                 <Button
                   onClick={handleSubmit}
                   disabled={isSubmitting || !hasChanges}
                   className="w-full"
                 >
                   <Save className="h-4 w-4 mr-2" />
-                  {isSubmitting ? "Saving..." : "Save Changes"}
+                  {isSubmitting
+                    ? "Processing..."
+                    : BlogAPI.isSupabaseConfigured()
+                      ? "Save Changes"
+                      : "Preview Changes"}
                 </Button>
 
                 <div className="text-sm text-muted-foreground">
