@@ -518,19 +518,31 @@ const requestLogger = (req, res, next) => {
       setLoading(true);
       const data = await BlogAPI.getPostBySlug(slug);
 
-      if (!data) {
+      if (data) {
+        // Use real Supabase data
+        setPost(data);
+      } else {
         // Try to find in sample data
         const samplePost = samplePosts.find((p) => p.slug === slug);
         if (samplePost) {
           setPost(samplePost);
+          if (!BlogAPI.isSupabaseConfigured()) {
+            toast({
+              title: "Demo Mode",
+              description:
+                "Connect to Supabase through MCP Servers to manage real blog posts. Currently showing sample data.",
+              variant: "default",
+            });
+          }
         } else {
           setNotFound(true);
         }
-      } else {
-        setPost(data);
       }
     } catch (error) {
-      console.error("Error loading post:", error);
+      console.error(
+        "Unexpected error loading post:",
+        error instanceof Error ? error.message : String(error),
+      );
       // Try sample data as fallback
       const samplePost = samplePosts.find((p) => p.slug === slug);
       if (samplePost) {
@@ -538,7 +550,7 @@ const requestLogger = (req, res, next) => {
         toast({
           title: "Using Demo Data",
           description:
-            "Connect to Supabase to see real blog posts. Currently showing sample data.",
+            "Unable to load post from database. Currently showing sample data.",
           variant: "default",
         });
       } else {
