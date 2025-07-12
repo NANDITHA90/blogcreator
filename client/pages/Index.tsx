@@ -28,6 +28,7 @@ export default function Index() {
     selectedTags: [],
     dateRange: "all",
     sortBy: "newest",
+    status: "all",
   });
 
   // Sample data for development/preview
