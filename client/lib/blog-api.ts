@@ -93,15 +93,13 @@ export class BlogAPI {
   static async deletePost(id: string): Promise<void> {
     try {
       await NetlifyBlogAPI.deletePost(id);
+
+      // In development mode, the post was deleted locally
+      if (import.meta.env.MODE === "development") {
+        console.info("Demo mode: Post deleted locally for preview");
+      }
     } catch (error) {
       console.error("Error deleting post with Netlify API:", error);
-
-      // Provide helpful error message for development
-      if (import.meta.env.MODE === "development") {
-        throw new Error(
-          "QuickBlog is ready to deploy! In development mode, posts are read-only. Deploy to Netlify to enable full functionality.",
-        );
-      }
 
       throw new Error(
         error instanceof Error
