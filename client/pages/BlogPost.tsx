@@ -559,18 +559,29 @@ const requestLogger = (req, res, next) => {
         "Unexpected error loading post:",
         error instanceof Error ? error.message : String(error),
       );
-      // Try sample data as fallback
-      const samplePost = samplePosts.find((p) => p.slug === slug);
-      if (samplePost) {
-        setPost(samplePost);
+      // Try demo storage first, then sample data as fallback
+      const demoPost = DemoPostStorage.getDemoPostBySlug(slug);
+      if (demoPost) {
+        setPost(demoPost);
         toast({
-          title: "Using Demo Data",
+          title: "Demo Post",
           description:
-            "Unable to load post from database. Currently showing sample data.",
+            "Viewing locally created post. Deploy to Netlify to persist posts.",
           variant: "default",
         });
       } else {
-        setNotFound(true);
+        const samplePost = samplePosts.find((p) => p.slug === slug);
+        if (samplePost) {
+          setPost(samplePost);
+          toast({
+            title: "Using Demo Data",
+            description:
+              "Unable to load post from database. Currently showing sample data.",
+            variant: "default",
+          });
+        } else {
+          setNotFound(true);
+        }
       }
     } finally {
       setLoading(false);
