@@ -117,6 +117,16 @@ export class NetlifyBlogAPI {
     id: string,
     updates: Partial<Omit<BlogPost, "id" | "created_at" | "updated_at">>,
   ): Promise<BlogPost> {
+    // In development, check if Netlify Functions are available
+    if (import.meta.env.MODE === "development") {
+      const available = await this.checkNetlifyAvailability();
+      if (!available) {
+        throw new Error(
+          "Netlify Functions not available in development. Deploy to Netlify to enable post editing.",
+        );
+      }
+    }
+
     try {
       const response = await fetch(`${this.baseUrl}/blog-api/${id}`, {
         method: "PUT",
@@ -137,7 +147,9 @@ export class NetlifyBlogAPI {
     } catch (error) {
       console.error("Error updating post:", error);
       throw new Error(
-        error instanceof Error ? error.message : "Failed to update post",
+        error instanceof Error
+          ? error.message
+          : "Failed to update post with Netlify Functions",
       );
     }
   }
