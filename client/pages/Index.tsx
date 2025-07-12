@@ -422,6 +422,7 @@ export default function Index() {
                             selectedTags: [],
                             dateRange: "all",
                             sortBy: "newest",
+                            status: "all",
                           })
                         }
                       >
