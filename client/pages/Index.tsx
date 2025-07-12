@@ -20,8 +20,15 @@ import { Link } from "react-router-dom";
 export default function Index() {
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [showFilters, setShowFilters] = useState(false);
   const { toast } = useToast();
+
+  const [filters, setFilters] = useState<FilterOptions>({
+    searchTerm: "",
+    selectedTags: [],
+    dateRange: "all",
+    sortBy: "newest",
+  });
 
   // Sample data for development/preview
   const samplePosts: BlogPost[] = [
