@@ -331,59 +331,107 @@ export default function Index() {
         </div>
       </section>
 
-      {/* Blog Posts Grid */}
+      {/* Blog Posts Section */}
       <section className="pb-20 px-4">
         <div className="container mx-auto">
-          {filteredPosts.length > 0 ? (
-            <>
-              <div className="flex items-center justify-between mb-8">
-                <h2 className="text-2xl font-semibold">
-                  {searchTerm
-                    ? `Search Results (${filteredPosts.length})`
-                    : "Latest Posts"}
-                </h2>
-                {searchTerm && (
-                  <Button variant="ghost" onClick={() => setSearchTerm("")}>
-                    Clear Search
-                  </Button>
-                )}
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+            {/* Filters Sidebar */}
+            {showFilters && (
+              <div className="lg:col-span-1">
+                <BlogFilters
+                  posts={posts}
+                  filters={filters}
+                  onFiltersChange={setFilters}
+                  className="sticky top-24"
+                />
               </div>
+            )}
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredPosts.map((post) => (
-                  <BlogCard
-                    key={post.id}
-                    post={post}
-                    onDelete={handleDeletePost}
-                  />
-                ))}
-              </div>
-            </>
-          ) : (
-            <div className="text-center py-16">
-              <div className="h-24 w-24 mx-auto mb-4 rounded-full bg-gradient-to-br from-brand-100 to-brand-200 flex items-center justify-center">
-                <BookOpen className="h-12 w-12 text-brand-600" />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">
-                {searchTerm ? "No posts found" : "No posts yet"}
-              </h3>
-              <p className="text-muted-foreground mb-6">
-                {searchTerm
-                  ? "Try adjusting your search terms or browse all posts."
-                  : "Be the first to share your thoughts and create a new post."}
-              </p>
-              <div className="flex justify-center space-x-4">
-                {searchTerm && (
-                  <Button variant="outline" onClick={() => setSearchTerm("")}>
-                    View All Posts
-                  </Button>
-                )}
-                <Button asChild>
-                  <Link to="/create">Create First Post</Link>
-                </Button>
-              </div>
+            {/* Main Content */}
+            <div className={showFilters ? "lg:col-span-3" : "lg:col-span-4"}>
+              {filteredAndSortedPosts.length > 0 ? (
+                <>
+                  <div className="flex items-center justify-between mb-8">
+                    <h2 className="text-2xl font-semibold">
+                      {filters.searchTerm ||
+                      filters.selectedTags.length > 0 ||
+                      filters.dateRange !== "all"
+                        ? `Filtered Results (${filteredAndSortedPosts.length})`
+                        : "Latest Posts"}
+                    </h2>
+                    <div className="flex items-center space-x-2 text-sm text-muted-foreground">
+                      <span>
+                        Sort by:{" "}
+                        {
+                          {
+                            newest: "Newest",
+                            oldest: "Oldest",
+                            popular: "Popular",
+                            alphabetical: "A-Z",
+                          }[filters.sortBy]
+                        }
+                      </span>
+                    </div>
+                  </div>
+
+                  <div
+                    className={`grid gap-6 ${
+                      showFilters
+                        ? "grid-cols-1 xl:grid-cols-2"
+                        : "grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+                    }`}
+                  >
+                    {filteredAndSortedPosts.map((post) => (
+                      <BlogCard
+                        key={post.id}
+                        post={post}
+                        onDelete={handleDeletePost}
+                      />
+                    ))}
+                  </div>
+                </>
+              ) : (
+                <div className="text-center py-16">
+                  <div className="h-24 w-24 mx-auto mb-4 rounded-full bg-gradient-to-br from-brand-100 to-brand-200 flex items-center justify-center">
+                    <BookOpen className="h-12 w-12 text-brand-600" />
+                  </div>
+                  <h3 className="text-xl font-semibold mb-2">
+                    {filters.searchTerm || filters.selectedTags.length > 0
+                      ? "No posts found"
+                      : "No posts yet"}
+                  </h3>
+                  <p className="text-muted-foreground mb-6">
+                    {filters.searchTerm || filters.selectedTags.length > 0
+                      ? "Try adjusting your filters or browse all posts."
+                      : "Be the first to share your thoughts and create a new post."}
+                  </p>
+                  <div className="flex justify-center space-x-4">
+                    {(filters.searchTerm ||
+                      filters.selectedTags.length > 0 ||
+                      filters.dateRange !== "all" ||
+                      filters.sortBy !== "newest") && (
+                      <Button
+                        variant="outline"
+                        onClick={() =>
+                          setFilters({
+                            searchTerm: "",
+                            selectedTags: [],
+                            dateRange: "all",
+                            sortBy: "newest",
+                          })
+                        }
+                      >
+                        Clear Filters
+                      </Button>
+                    )}
+                    <Button asChild>
+                      <Link to="/create">Create First Post</Link>
+                    </Button>
+                  </div>
+                </div>
+              )}
             </div>
-          )}
+          </div>
         </div>
       </section>
     </div>
