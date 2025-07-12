@@ -791,17 +791,16 @@ Remember that scalability is not just about handling more requests—it's about 
                 <CardTitle>Update Post</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                {!BlogAPI.isSupabaseConfigured() && hasChanges && (
-                  <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                {hasChanges && (
+                  <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
                     <div className="flex items-start space-x-2">
-                      <AlertTriangle className="h-4 w-4 text-blue-600 mt-0.5" />
+                      <Save className="h-4 w-4 text-green-600 mt-0.5" />
                       <div className="text-sm">
-                        <p className="font-medium text-blue-800 mb-1">
-                          Demo Mode
+                        <p className="font-medium text-green-800 mb-1">
+                          Ready to Save
                         </p>
-                        <p className="text-blue-700">
-                          Connect to Supabase to save real changes. Button below
-                          will show preview mode.
+                        <p className="text-green-700">
+                          Your changes will be saved to Netlify Blob storage.
                         </p>
                       </div>
                     </div>
