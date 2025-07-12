@@ -1,4 +1,12 @@
-import { Calendar, Clock, Edit, Trash2, Tag } from "lucide-react";
+import {
+  Calendar,
+  Clock,
+  Edit,
+  Trash2,
+  Tag,
+  FileText,
+  Eye,
+} from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "./ui/card";
