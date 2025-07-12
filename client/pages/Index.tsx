@@ -63,16 +63,32 @@ export default function Index() {
     try {
       setLoading(true);
       const data = await BlogAPI.getAllPosts();
-      // If no posts from Supabase, use sample data for demo
-      setPosts(data.length > 0 ? data : samplePosts);
+
+      if (data.length > 0) {
+        // Use real Supabase data
+        setPosts(data);
+      } else {
+        // Use sample data for demo (either no data or Supabase not configured)
+        setPosts(samplePosts);
+        if (!BlogAPI.isSupabaseConfigured()) {
+          toast({
+            title: "Demo Mode",
+            description:
+              "Connect to Supabase through MCP Servers to manage real blog posts. Currently showing sample data.",
+            variant: "default",
+          });
+        }
+      }
     } catch (error) {
-      console.error("Error loading posts:", error);
+      console.error(
+        "Unexpected error loading posts:",
+        error instanceof Error ? error.message : String(error),
+      );
       // Use sample data as fallback
       setPosts(samplePosts);
       toast({
         title: "Using Demo Data",
-        description:
-          "Connect to Supabase to see real blog posts. Currently showing sample data.",
+        description: "Unable to load posts. Currently showing sample data.",
         variant: "default",
       });
     } finally {
