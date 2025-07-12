@@ -35,9 +35,10 @@ export class NetlifyBlogAPI {
       const available = await this.checkNetlifyAvailability();
       if (!available) {
         console.info(
-          "Netlify Functions not available in development, using sample data",
+          "Netlify Functions not available in development, using demo storage",
         );
-        return [];
+        // Return demo posts from localStorage
+        return DemoPostStorage.getDemoPosts();
       }
     }
 
@@ -49,7 +50,10 @@ export class NetlifyBlogAPI {
       return await response.json();
     } catch (error) {
       console.warn("Error fetching posts from Netlify:", error);
-      // Return empty array for graceful fallback
+      // In development, fall back to demo posts
+      if (import.meta.env.MODE === "development") {
+        return DemoPostStorage.getDemoPosts();
+      }
       return [];
     }
   }
