@@ -446,16 +446,43 @@ export default function CreatePost() {
                 <CardTitle>Publish</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
+                <div
+                  className={`p-3 rounded-lg ${
+                    import.meta.env.MODE === "development"
+                      ? "bg-blue-50 border border-blue-200"
+                      : "bg-green-50 border border-green-200"
+                  }`}
+                >
                   <div className="flex items-start space-x-2">
-                    <FileText className="h-4 w-4 text-green-600 mt-0.5" />
+                    <FileText
+                      className={`h-4 w-4 mt-0.5 ${
+                        import.meta.env.MODE === "development"
+                          ? "text-blue-600"
+                          : "text-green-600"
+                      }`}
+                    />
                     <div className="text-sm">
-                      <p className="font-medium text-green-800 mb-1">
-                        Netlify Backend
+                      <p
+                        className={`font-medium mb-1 ${
+                          import.meta.env.MODE === "development"
+                            ? "text-blue-800"
+                            : "text-green-800"
+                        }`}
+                      >
+                        {import.meta.env.MODE === "development"
+                          ? "Development Mode"
+                          : "Netlify Backend"}
                       </p>
-                      <p className="text-green-700">
-                        Your blog is powered by Netlify Functions and Blob
-                        storage. Posts will be saved to your Netlify deployment.
+                      <p
+                        className={
+                          import.meta.env.MODE === "development"
+                            ? "text-blue-700"
+                            : "text-green-700"
+                        }
+                      >
+                        {import.meta.env.MODE === "development"
+                          ? "Your blog is ready for Netlify! Deploy to enable post creation and editing. Currently showing sample data."
+                          : "Your blog is powered by Netlify Functions and Blob storage. Posts will be saved to your Netlify deployment."}
                       </p>
                     </div>
                   </div>
