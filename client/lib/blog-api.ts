@@ -71,16 +71,16 @@ export class BlogAPI {
     updates: Partial<Omit<BlogPost, "id" | "created_at" | "updated_at">>,
   ): Promise<BlogPost> {
     try {
-      return await NetlifyBlogAPI.updatePost(id, updates);
+      const result = await NetlifyBlogAPI.updatePost(id, updates);
+
+      // In development mode, the post was updated locally
+      if (import.meta.env.MODE === "development") {
+        console.info("Demo mode: Post updated locally for preview");
+      }
+
+      return result;
     } catch (error) {
       console.error("Error updating post with Netlify API:", error);
-
-      // Provide helpful error message for development
-      if (import.meta.env.MODE === "development") {
-        throw new Error(
-          "QuickBlog is ready to deploy! In development mode, posts are read-only. Deploy to Netlify to enable full functionality.",
-        );
-      }
 
       throw new Error(
         error instanceof Error
