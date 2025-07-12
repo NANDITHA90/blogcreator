@@ -92,7 +92,9 @@ export default function Index() {
         toast({
           title: "Welcome to QuickBlog",
           description:
-            "Your blog is powered by Netlify Functions! Start by creating your first post.",
+            import.meta.env.MODE === "development"
+              ? "Your blog is ready for Netlify! Deploy to enable full functionality. Currently showing sample content."
+              : "Your blog is powered by Netlify Functions! Start by creating your first post.",
           variant: "default",
         });
       }
