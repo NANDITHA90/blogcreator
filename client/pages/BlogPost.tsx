@@ -184,12 +184,16 @@ export const Button: React.FC<ButtonProps> = ({
           <h2>Browser Support and Progressive Enhancement</h2>
           <p>While these features are cutting-edge, most have excellent browser support. Use feature queries to provide fallbacks:</p>
           
-          <pre><code>@supports (container-type: inline-size) {
-  /* Container query styles */
+                    <pre><code>@supports (container-type: inline-size) {
+  .responsive-component {
+    container-type: inline-size;
+  }
 }
 
 @supports not (container-type: inline-size) {
-  /* Fallback styles */
+  .responsive-component {
+    width: 100%;
+  }
 }</code></pre>
           
           <h2>Getting Started</h2>
