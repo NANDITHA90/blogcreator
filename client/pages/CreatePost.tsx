@@ -115,20 +115,7 @@ export default function CreatePost() {
       return;
     }
 
-    // Check if Supabase is configured
-    if (!BlogAPI.isSupabaseConfigured()) {
-      toast({
-        title: "Demo Mode",
-        description:
-          "Connect to Supabase through MCP Servers to save real posts. This is a preview of what would be created.",
-        variant: "default",
-      });
-
-      // Show preview and guidance
-      const slug = BlogAPI.generateSlug(updatedFormData.title);
-      setIsPreview(true);
-      return;
-    }
+    // Using Netlify Functions - no need for configuration check
 
     try {
       setIsSubmitting(true);
