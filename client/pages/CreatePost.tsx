@@ -465,11 +465,7 @@ export default function CreatePost() {
                     disabled={isSubmitting}
                     className="w-full"
                   >
-                    {isSubmitting
-                      ? "Processing..."
-                      : BlogAPI.isSupabaseConfigured()
-                        ? "Publish Post"
-                        : "Preview Published Post"}
+                    {isSubmitting ? "Publishing..." : "Publish Post"}
                   </Button>
                   <Button
                     onClick={() => handleSubmit("draft")}
