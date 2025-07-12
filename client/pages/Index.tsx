@@ -1,12 +1,20 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { BlogCard } from "@/components/BlogCard";
+import { BlogFilters, FilterOptions } from "@/components/BlogFilters";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { BlogAPI } from "@/lib/blog-api";
 import { BlogPost } from "@/lib/supabase";
 import { useToast } from "@/hooks/use-toast";
-import { Search, Plus, BookOpen, TrendingUp, Users } from "lucide-react";
+import {
+  Search,
+  Plus,
+  BookOpen,
+  TrendingUp,
+  Users,
+  Filter,
+} from "lucide-react";
 import { Link } from "react-router-dom";
 
 export default function Index() {
