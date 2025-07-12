@@ -132,6 +132,7 @@ Whether you're building a small project or a large-scale application, TypeScript
       tags: ["React", "TypeScript", "Web Development", "Frontend"],
       excerpt:
         "Learn how to build scalable web applications with React and TypeScript. A comprehensive guide covering setup, components, and best practices.",
+      status: "published",
       created_at: "2024-01-15T10:00:00Z",
       updated_at: "2024-01-15T10:00:00Z",
       slug: "getting-started-react-typescript",
