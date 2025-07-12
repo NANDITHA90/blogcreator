@@ -484,7 +484,7 @@ export default function CreatePost() {
                         }
                       >
                         {import.meta.env.MODE === "development"
-                          ? "Your blog is ready for Netlify! Deploy to enable post creation and editing. Currently showing sample data."
+                          ? "Your blog is ready for Netlify! You can create and preview posts locally. Deploy to enable persistent storage."
                           : "Your blog is powered by Netlify Functions and Blob storage. Posts will be saved to your Netlify deployment."}
                       </p>
                     </div>
