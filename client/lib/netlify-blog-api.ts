@@ -131,13 +131,28 @@ export class NetlifyBlogAPI {
     id: string,
     updates: Partial<Omit<BlogPost, "id" | "created_at" | "updated_at">>,
   ): Promise<BlogPost> {
-    // In development, check if Netlify Functions are available
+    // In development, simulate post update
     if (import.meta.env.MODE === "development") {
       const available = await this.checkNetlifyAvailability();
       if (!available) {
-        throw new Error(
-          "Netlify Functions not available in development. Deploy to Netlify to enable post editing.",
-        );
+        // Return a simulated updated post for demo purposes
+        const now = new Date().toISOString();
+
+        return {
+          id,
+          title: updates.title || "Updated Post",
+          content: updates.content || "Updated content",
+          tags: updates.tags || [],
+          excerpt:
+            updates.excerpt ||
+            this.generateExcerpt(updates.content || "Updated content"),
+          status: updates.status || "published",
+          slug: updates.title
+            ? this.generateSlug(updates.title)
+            : `updated-${id}`,
+          created_at: new Date(Date.now() - 86400000).toISOString(), // 1 day ago
+          updated_at: now,
+        };
       }
     }
 
