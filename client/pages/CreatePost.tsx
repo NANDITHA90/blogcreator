@@ -134,11 +134,14 @@ export default function CreatePost() {
         status,
       };
 
-      await BlogAPI.createPost(newPost);
+      const createdPost = await BlogAPI.createPost(newPost);
 
       toast({
         title: "Post Created",
-        description: `Your blog post has been ${status === "published" ? "published" : "saved as draft"} successfully.`,
+        description:
+          import.meta.env.MODE === "development"
+            ? `Demo: Your blog post has been ${status === "published" ? "published" : "saved as draft"} locally. Deploy to Netlify to persist posts.`
+            : `Your blog post has been ${status === "published" ? "published" : "saved as draft"} successfully.`,
       });
 
       navigate(`/post/${slug}`);
