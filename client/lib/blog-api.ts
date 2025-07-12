@@ -47,10 +47,18 @@ export class BlogAPI {
       return await NetlifyBlogAPI.createPost(post);
     } catch (error) {
       console.error("Error creating post with Netlify API:", error);
+
+      // Provide helpful error message for development
+      if (import.meta.env.MODE === "development") {
+        throw new Error(
+          "QuickBlog is ready to deploy! In development mode, posts are read-only. Deploy to Netlify to enable full functionality.",
+        );
+      }
+
       throw new Error(
         error instanceof Error
           ? error.message
-          : "Failed to create post with Netlify",
+          : "Failed to create post with Netlify Functions",
       );
     }
   }
