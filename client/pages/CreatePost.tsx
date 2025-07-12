@@ -474,11 +474,7 @@ export default function CreatePost() {
                     className="w-full"
                   >
                     <Save className="h-4 w-4 mr-2" />
-                    {isSubmitting
-                      ? "Processing..."
-                      : BlogAPI.isSupabaseConfigured()
-                        ? "Save as Draft"
-                        : "Preview Draft"}
+                    {isSubmitting ? "Saving..." : "Save as Draft"}
                   </Button>
                 </div>
 
