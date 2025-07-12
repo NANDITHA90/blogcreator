@@ -482,9 +482,7 @@ export default function CreatePost() {
                   <div className="flex items-center space-x-2 mb-1">
                     <Calendar className="h-4 w-4" />
                     <span>
-                      {BlogAPI.isSupabaseConfigured()
-                        ? `Will be published on: ${new Date().toLocaleDateString()}`
-                        : `Preview date: ${new Date().toLocaleDateString()}`}
+                      Will be published on: {new Date().toLocaleDateString()}
                     </span>
                   </div>
                 </div>
