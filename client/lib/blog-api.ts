@@ -1,18 +1,46 @@
 import { supabase, type BlogPost } from "./supabase";
 
 export class BlogAPI {
-  static async getAllPosts(): Promise<BlogPost[]> {
-    const { data, error } = await supabase
-      .from("blog_posts")
-      .select("*")
-      .order("created_at", { ascending: false });
+  static isSupabaseConfigured(): boolean {
+    const url = import.meta.env.VITE_SUPABASE_URL;
+    const key = import.meta.env.VITE_SUPABASE_ANON_KEY;
+    return !!(
+      url &&
+      key &&
+      url !== "https://your-project.supabase.co" &&
+      key !== "your-anon-key"
+    );
+  }
 
-    if (error) {
-      console.error("Error fetching posts:", error);
-      throw error;
+  static async getAllPosts(): Promise<BlogPost[]> {
+    // If Supabase is not configured, return empty array to trigger fallback
+    if (!this.isSupabaseConfigured()) {
+      console.info("Supabase not configured, using demo data");
+      return [];
     }
 
-    return data || [];
+    try {
+      const { data, error } = await supabase
+        .from("blog_posts")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        console.warn(
+          "Supabase error, falling back to demo data:",
+          error.message || error,
+        );
+        return [];
+      }
+
+      return data || [];
+    } catch (error) {
+      console.warn(
+        "Failed to connect to Supabase, falling back to demo data:",
+        error instanceof Error ? error.message : String(error),
+      );
+      return [];
+    }
   }
 
   static async getPostBySlug(slug: string): Promise<BlogPost | null> {
