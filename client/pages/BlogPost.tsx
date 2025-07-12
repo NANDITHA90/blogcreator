@@ -206,6 +206,7 @@ export const Button: React.FC<ButtonProps> = ({
       tags: ["CSS", "Web Design", "Frontend", "Responsive Design"],
       excerpt:
         "Discover the latest CSS features and techniques that will revolutionize your web design workflow in 2024.",
+      status: "published",
       created_at: "2024-01-12T14:30:00Z",
       updated_at: "2024-01-12T14:30:00Z",
       slug: "modern-css-techniques-2024",
