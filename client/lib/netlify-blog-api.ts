@@ -155,6 +155,16 @@ export class NetlifyBlogAPI {
   }
 
   static async deletePost(id: string): Promise<void> {
+    // In development, check if Netlify Functions are available
+    if (import.meta.env.MODE === "development") {
+      const available = await this.checkNetlifyAvailability();
+      if (!available) {
+        throw new Error(
+          "Netlify Functions not available in development. Deploy to Netlify to enable post deletion.",
+        );
+      }
+    }
+
     try {
       const response = await fetch(`${this.baseUrl}/blog-api/${id}`, {
         method: "DELETE",
@@ -169,7 +179,9 @@ export class NetlifyBlogAPI {
     } catch (error) {
       console.error("Error deleting post:", error);
       throw new Error(
-        error instanceof Error ? error.message : "Failed to delete post",
+        error instanceof Error
+          ? error.message
+          : "Failed to delete post with Netlify Functions",
       );
     }
   }
