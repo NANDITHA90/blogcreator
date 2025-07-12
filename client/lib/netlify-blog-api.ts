@@ -184,13 +184,13 @@ export class NetlifyBlogAPI {
   }
 
   static async deletePost(id: string): Promise<void> {
-    // In development, check if Netlify Functions are available
+    // In development, simulate post deletion
     if (import.meta.env.MODE === "development") {
       const available = await this.checkNetlifyAvailability();
       if (!available) {
-        throw new Error(
-          "Netlify Functions not available in development. Deploy to Netlify to enable post deletion.",
-        );
+        // Simulate successful deletion for demo purposes
+        console.info(`Demo mode: Simulated deletion of post ${id}`);
+        return;
       }
     }
 
