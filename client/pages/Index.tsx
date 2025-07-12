@@ -84,19 +84,17 @@ export default function Index() {
       const data = await BlogAPI.getAllPosts();
 
       if (data.length > 0) {
-        // Use real Supabase data
+        // Use real Netlify data
         setPosts(data);
       } else {
-        // Use sample data for demo (either no data or Supabase not configured)
+        // Use sample data as starter content
         setPosts(samplePosts);
-        if (!BlogAPI.isSupabaseConfigured()) {
-          toast({
-            title: "Demo Mode",
-            description:
-              "Connect to Supabase through MCP Servers to manage real blog posts. Currently showing sample data.",
-            variant: "default",
-          });
-        }
+        toast({
+          title: "Welcome to QuickBlog",
+          description:
+            "Your blog is powered by Netlify Functions! Start by creating your first post.",
+          variant: "default",
+        });
       }
     } catch (error) {
       console.error(
