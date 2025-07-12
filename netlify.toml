@@ -10,17 +10,16 @@
   # Node version for functions
   NODE_VERSION = "18"
 
-# Redirect all paths to index.html for SPA routing
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-  conditions = {Role = ["admin"]}
-
 # API routes go to functions
 [[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/:splat"
+  status = 200
+
+# Redirect all other paths to index.html for SPA routing
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
   status = 200
 
 # Development settings
