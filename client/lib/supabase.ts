@@ -13,6 +13,7 @@ export type BlogPost = {
   content: string;
   tags: string[];
   excerpt?: string;
+  status: "draft" | "published";
   created_at: string;
   updated_at: string;
   slug: string;
