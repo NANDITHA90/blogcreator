@@ -1,15 +1,55 @@
 [build]
-  command = "npm run build:client"
-  functions = "netlify/functions"
+  # Build command for your React app
+  command = "npm run build"
+  # Directory to publish
   publish = "dist/spa"
+  # Functions directory
+  functions = "netlify/functions"
 
+[build.environment]
+  # Node version for functions
+  NODE_VERSION = "18"
 
-[functions]
-  external_node_modules = ["express"]
-  node_bundler = "esbuild"
-  
+# Redirect all paths to index.html for SPA routing
 [[redirects]]
-  force = true
-  from = "/api/*"
+  from = "/*"
+  to = "/index.html"
   status = 200
-  to = "/.netlify/functions/api/:splat"
+  conditions = {Role = ["admin"]}
+
+# API routes go to functions
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+
+# Development settings
+[dev]
+  command = "npm run dev"
+  port = 8080
+  publish = "dist/spa"
+  functions = "netlify/functions"
+
+# Function settings
+[functions]
+  # Timeout for functions (max 10 seconds for free tier)
+  timeout = 10
+  # Memory allocation
+  memory = 128
+
+# Headers for security
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+# Headers for API
+[[headers]]
+  for = "/api/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+    Access-Control-Allow-Headers = "Content-Type"
+    Access-Control-Allow-Methods = "GET, POST, PUT, DELETE, OPTIONS"
