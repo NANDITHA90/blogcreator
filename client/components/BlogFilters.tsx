@@ -96,6 +96,7 @@ export function BlogFilters({
       selectedTags: [],
       dateRange: "all",
       sortBy: "newest",
+      status: "all",
     });
   };
 
