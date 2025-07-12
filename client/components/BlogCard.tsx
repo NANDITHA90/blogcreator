@@ -34,10 +34,21 @@ export function BlogCard({ post, onDelete }: BlogCardProps) {
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between gap-4">
           <div className="flex-1">
-            <h3 className="text-xl font-semibold group-hover:text-brand-600 transition-colors line-clamp-2">
-              <Link to={`/post/${post.slug}`}>{post.title}</Link>
-            </h3>
-            <div className="flex items-center space-x-4 text-sm text-muted-foreground mt-2">
+            <div className="flex items-center space-x-2 mb-2">
+              <h3 className="text-xl font-semibold group-hover:text-brand-600 transition-colors line-clamp-2 flex-1">
+                <Link to={`/post/${post.slug}`}>{post.title}</Link>
+              </h3>
+              {post.status === "draft" && (
+                <Badge
+                  variant="outline"
+                  className="text-xs bg-amber-50 text-amber-700 border-amber-200"
+                >
+                  <FileText className="h-3 w-3 mr-1" />
+                  Draft
+                </Badge>
+              )}
+            </div>
+            <div className="flex items-center space-x-4 text-sm text-muted-foreground">
               <div className="flex items-center space-x-1">
                 <Calendar className="h-3 w-3" />
                 <span>{formatDate(post.created_at)}</span>
@@ -46,6 +57,12 @@ export function BlogCard({ post, onDelete }: BlogCardProps) {
                 <Clock className="h-3 w-3" />
                 <span>{readingTime} min read</span>
               </div>
+              {post.status === "published" && (
+                <div className="flex items-center space-x-1">
+                  <Eye className="h-3 w-3" />
+                  <span>Published</span>
+                </div>
+              )}
             </div>
           </div>
           <div className="flex space-x-1 opacity-0 group-hover:opacity-100 transition-opacity">
