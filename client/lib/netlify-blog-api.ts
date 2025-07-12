@@ -76,6 +76,16 @@ export class NetlifyBlogAPI {
   static async createPost(
     post: Omit<BlogPost, "id" | "created_at" | "updated_at">,
   ): Promise<BlogPost> {
+    // In development, check if Netlify Functions are available
+    if (import.meta.env.MODE === "development") {
+      const available = await this.checkNetlifyAvailability();
+      if (!available) {
+        throw new Error(
+          "Netlify Functions not available in development. Deploy to Netlify to enable post creation.",
+        );
+      }
+    }
+
     try {
       const response = await fetch(`${this.baseUrl}/blog-api`, {
         method: "POST",
@@ -96,7 +106,9 @@ export class NetlifyBlogAPI {
     } catch (error) {
       console.error("Error creating post:", error);
       throw new Error(
-        error instanceof Error ? error.message : "Failed to create post",
+        error instanceof Error
+          ? error.message
+          : "Failed to create post with Netlify Functions",
       );
     }
   }
