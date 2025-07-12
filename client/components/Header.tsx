@@ -9,7 +9,7 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 items-center justify-between border-[3px] border-dashed border-[rgb(8,23,46)]">
+      <div className="container flex h-16 items-center justify-between border-[rgb(8,23,46)]">
         <Link to="/" className="flex items-center space-x-2">
           <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-brand-500 to-blue-500 flex items-center justify-center">
             <PenTool className="h-4 w-4 text-white" />
