@@ -528,11 +528,23 @@ Remember that scalability is not just about handling more requests—it's about 
               <span>Back to Edit</span>
             </Button>
             <div className="flex space-x-2">
+              {!BlogAPI.isSupabaseConfigured() && (
+                <div className="flex items-center space-x-2 px-4 py-2 bg-amber-50 border border-amber-200 rounded-lg mr-4">
+                  <AlertTriangle className="h-4 w-4 text-amber-600" />
+                  <span className="text-sm text-amber-800">
+                    Demo Mode - Connect Supabase to save changes
+                  </span>
+                </div>
+              )}
               <Button
                 onClick={handleSubmit}
                 disabled={isSubmitting || !hasChanges}
               >
-                {isSubmitting ? "Saving..." : "Save Changes"}
+                {isSubmitting
+                  ? "Processing..."
+                  : BlogAPI.isSupabaseConfigured()
+                    ? "Save Changes"
+                    : "Demo Preview"}
               </Button>
             </div>
           </div>
