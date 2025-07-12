@@ -502,6 +502,7 @@ const requestLogger = (req, res, next) => {
       tags: ["Node.js", "API", "Backend", "Express", "JavaScript"],
       excerpt:
         "Learn to build production-ready APIs with Node.js and Express, covering authentication, testing, and deployment.",
+      status: "published",
       created_at: "2024-01-10T09:15:00Z",
       updated_at: "2024-01-10T09:15:00Z",
       slug: "building-scalable-apis-nodejs",
