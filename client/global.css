@@ -18,11 +18,28 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 222.2 47.4% 11.2%;
+    --primary: 263 70% 50%;
     --primary-foreground: 210 40% 98%;
 
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222.2 47.4% 11.2%;
+
+    /* Brand colors - Modern purple/blue gradient theme */
+    --brand-50: 263 100% 98%;
+    --brand-100: 263 100% 95%;
+    --brand-200: 263 100% 89%;
+    --brand-300: 263 100% 80%;
+    --brand-400: 263 100% 69%;
+    --brand-500: 263 70% 50%;
+    --brand-600: 263 70% 45%;
+    --brand-700: 263 70% 35%;
+    --brand-800: 263 70% 25%;
+    --brand-900: 263 70% 15%;
+    --brand-950: 263 70% 8%;
+
+    /* Gradient colors */
+    --gradient-from: 263 70% 50%;
+    --gradient-to: 220 100% 50%;
 
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
@@ -66,8 +83,25 @@
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 263 70% 50%;
+    --primary-foreground: 210 40% 98%;
+
+    /* Brand colors - Dark mode */
+    --brand-50: 263 70% 8%;
+    --brand-100: 263 70% 15%;
+    --brand-200: 263 70% 25%;
+    --brand-300: 263 70% 35%;
+    --brand-400: 263 70% 45%;
+    --brand-500: 263 70% 50%;
+    --brand-600: 263 100% 69%;
+    --brand-700: 263 100% 80%;
+    --brand-800: 263 100% 89%;
+    --brand-900: 263 100% 95%;
+    --brand-950: 263 100% 98%;
+
+    /* Gradient colors - Dark mode */
+    --gradient-from: 263 70% 50%;
+    --gradient-to: 220 100% 50%;
 
     --secondary: 217.2 32.6% 17.5%;
     --secondary-foreground: 210 40% 98%;
