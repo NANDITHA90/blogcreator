@@ -101,11 +101,11 @@ export class NetlifyBlogAPI {
     if (import.meta.env.MODE === "development") {
       const available = await this.checkNetlifyAvailability();
       if (!available) {
-        // Return a simulated post for demo purposes
+        // Create a demo post and save to localStorage
         const id = `demo-${Date.now()}`;
         const now = new Date().toISOString();
 
-        return {
+        const newPost: BlogPost = {
           id,
           ...post,
           slug: this.generateSlug(post.title),
@@ -113,6 +113,11 @@ export class NetlifyBlogAPI {
           created_at: now,
           updated_at: now,
         };
+
+        // Save to demo storage
+        DemoPostStorage.saveDemoPost(newPost);
+
+        return newPost;
       }
     }
 
