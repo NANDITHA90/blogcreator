@@ -423,6 +423,20 @@ Remember that scalability is not just about handling more requests—it's about 
       return;
     }
 
+    // Check if Supabase is configured
+    if (!BlogAPI.isSupabaseConfigured()) {
+      toast({
+        title: "Demo Mode",
+        description:
+          "Connect to Supabase through MCP Servers to save real changes. This is a preview of your edits.",
+        variant: "default",
+      });
+
+      // Show preview mode
+      setIsPreview(true);
+      return;
+    }
+
     try {
       setIsSubmitting(true);
 
