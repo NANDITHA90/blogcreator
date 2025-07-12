@@ -81,13 +81,22 @@ export class NetlifyBlogAPI {
   static async createPost(
     post: Omit<BlogPost, "id" | "created_at" | "updated_at">,
   ): Promise<BlogPost> {
-    // In development, check if Netlify Functions are available
+    // In development, simulate post creation
     if (import.meta.env.MODE === "development") {
       const available = await this.checkNetlifyAvailability();
       if (!available) {
-        throw new Error(
-          "Netlify Functions not available in development. Deploy to Netlify to enable post creation.",
-        );
+        // Return a simulated post for demo purposes
+        const id = `demo-${Date.now()}`;
+        const now = new Date().toISOString();
+
+        return {
+          id,
+          ...post,
+          slug: this.generateSlug(post.title),
+          excerpt: post.excerpt || this.generateExcerpt(post.content),
+          created_at: now,
+          updated_at: now,
+        };
       }
     }
 
