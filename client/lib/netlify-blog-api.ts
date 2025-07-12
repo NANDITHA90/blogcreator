@@ -11,9 +11,14 @@ export class NetlifyBlogAPI {
   // Check if Netlify Functions are available
   private static async checkNetlifyAvailability(): Promise<boolean> {
     try {
+      // In development, just assume not available to skip network calls
+      if (import.meta.env.MODE === "development") {
+        this.isNetlifyAvailable = false;
+        return false;
+      }
+
       const response = await fetch(`${this.baseUrl}/blog-api`, {
         method: "HEAD",
-        signal: AbortSignal.timeout(2000), // 2 second timeout
       });
       this.isNetlifyAvailable = response.ok;
       return this.isNetlifyAvailable;
