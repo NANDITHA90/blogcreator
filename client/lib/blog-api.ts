@@ -44,16 +44,19 @@ export class BlogAPI {
     post: Omit<BlogPost, "id" | "created_at" | "updated_at">,
   ): Promise<BlogPost> {
     try {
-      return await NetlifyBlogAPI.createPost(post);
+      const result = await NetlifyBlogAPI.createPost(post);
+
+      // In development mode with demo data, the post was created locally
+      if (
+        import.meta.env.MODE === "development" &&
+        result.id.startsWith("demo-")
+      ) {
+        console.info("Demo mode: Post created locally for preview");
+      }
+
+      return result;
     } catch (error) {
       console.error("Error creating post with Netlify API:", error);
-
-      // Provide helpful error message for development
-      if (import.meta.env.MODE === "development") {
-        throw new Error(
-          "QuickBlog is ready to deploy! In development mode, posts are read-only. Deploy to Netlify to enable full functionality.",
-        );
-      }
 
       throw new Error(
         error instanceof Error
