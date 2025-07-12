@@ -6,7 +6,35 @@ export class NetlifyBlogAPI {
       ? "/.netlify/functions"
       : "http://localhost:8888/.netlify/functions";
 
+  private static isNetlifyAvailable = false;
+
+  // Check if Netlify Functions are available
+  private static async checkNetlifyAvailability(): Promise<boolean> {
+    try {
+      const response = await fetch(`${this.baseUrl}/blog-api`, {
+        method: "HEAD",
+        signal: AbortSignal.timeout(2000), // 2 second timeout
+      });
+      this.isNetlifyAvailable = response.ok;
+      return this.isNetlifyAvailable;
+    } catch (error) {
+      this.isNetlifyAvailable = false;
+      return false;
+    }
+  }
+
   static async getAllPosts(): Promise<BlogPost[]> {
+    // In development, check if Netlify Functions are available
+    if (import.meta.env.MODE === "development") {
+      const available = await this.checkNetlifyAvailability();
+      if (!available) {
+        console.info(
+          "Netlify Functions not available in development, using sample data",
+        );
+        return [];
+      }
+    }
+
     try {
       const response = await fetch(`${this.baseUrl}/blog-api`);
       if (!response.ok) {
@@ -14,7 +42,7 @@ export class NetlifyBlogAPI {
       }
       return await response.json();
     } catch (error) {
-      console.error("Error fetching posts:", error);
+      console.warn("Error fetching posts from Netlify:", error);
       // Return empty array for graceful fallback
       return [];
     }
