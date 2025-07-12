@@ -178,14 +178,12 @@ export default function CreatePost() {
               <span>Back to Edit</span>
             </Button>
             <div className="flex space-x-2">
-              {!BlogAPI.isSupabaseConfigured() && (
-                <div className="flex items-center space-x-2 px-4 py-2 bg-amber-50 border border-amber-200 rounded-lg mr-4">
-                  <FileText className="h-4 w-4 text-amber-600" />
-                  <span className="text-sm text-amber-800">
-                    Demo Mode - Connect Supabase to save posts
-                  </span>
-                </div>
-              )}
+              <div className="flex items-center space-x-2 px-4 py-2 bg-green-50 border border-green-200 rounded-lg mr-4">
+                <FileText className="h-4 w-4 text-green-600" />
+                <span className="text-sm text-green-800">
+                  Powered by Netlify Functions
+                </span>
+              </div>
               <Button
                 onClick={() => handleSubmit("draft")}
                 variant="outline"
