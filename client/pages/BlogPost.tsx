@@ -526,20 +526,32 @@ const requestLogger = (req, res, next) => {
         // Use real Supabase data
         setPost(data);
       } else {
-        // Try to find in sample data
-        const samplePost = samplePosts.find((p) => p.slug === slug);
-        if (samplePost) {
-          setPost(samplePost);
-          if (!BlogAPI.isSupabaseConfigured()) {
-            toast({
-              title: "Demo Mode",
-              description:
-                "Connect to Supabase through MCP Servers to manage real blog posts. Currently showing sample data.",
-              variant: "default",
-            });
-          }
+        // Try to find in demo storage first (for newly created posts)
+        const demoPost = DemoPostStorage.getDemoPostBySlug(slug);
+        if (demoPost) {
+          setPost(demoPost);
+          toast({
+            title: "Demo Post",
+            description:
+              "Viewing locally created post. Deploy to Netlify to persist posts.",
+            variant: "default",
+          });
         } else {
-          setNotFound(true);
+          // Fall back to sample data
+          const samplePost = samplePosts.find((p) => p.slug === slug);
+          if (samplePost) {
+            setPost(samplePost);
+            if (!BlogAPI.isSupabaseConfigured()) {
+              toast({
+                title: "Demo Mode",
+                description:
+                  "Connect to Supabase through MCP Servers to manage real blog posts. Currently showing sample data.",
+                variant: "default",
+              });
+            }
+          } else {
+            setNotFound(true);
+          }
         }
       }
     } catch (error) {
