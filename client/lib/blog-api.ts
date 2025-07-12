@@ -71,10 +71,18 @@ export class BlogAPI {
       return await NetlifyBlogAPI.updatePost(id, updates);
     } catch (error) {
       console.error("Error updating post with Netlify API:", error);
+
+      // Provide helpful error message for development
+      if (import.meta.env.MODE === "development") {
+        throw new Error(
+          "QuickBlog is ready to deploy! In development mode, posts are read-only. Deploy to Netlify to enable full functionality.",
+        );
+      }
+
       throw new Error(
         error instanceof Error
           ? error.message
-          : "Failed to update post with Netlify",
+          : "Failed to update post with Netlify Functions",
       );
     }
   }
