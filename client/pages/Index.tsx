@@ -235,7 +235,7 @@ export default function Index() {
       <section className="relative py-20 px-4">
         <div className="container mx-auto text-center border-none border">
           <div className="mb-8">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-brand-600 via-brand-500 to-blue-600 bg-clip-text text-transparent">
+            <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-brand-600 via-brand-500 to-blue-600 bg-clip-text text-transparent pb-5">
               Welcome to QuickBlog
             </h1>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
