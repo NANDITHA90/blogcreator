@@ -129,14 +129,80 @@ export default function Index() {
     }
   };
 
-  const filteredPosts = posts.filter(
-    (post) =>
-      post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      post.content.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      post.tags.some((tag) =>
-        tag.toLowerCase().includes(searchTerm.toLowerCase()),
-      ),
-  );
+  // Advanced filtering and sorting logic
+  const filteredAndSortedPosts = useMemo(() => {
+    let filtered = [...posts];
+
+    // Filter by search term
+    if (filters.searchTerm) {
+      const searchLower = filters.searchTerm.toLowerCase();
+      filtered = filtered.filter(
+        (post) =>
+          post.title.toLowerCase().includes(searchLower) ||
+          post.content.toLowerCase().includes(searchLower) ||
+          post.excerpt?.toLowerCase().includes(searchLower) ||
+          post.tags.some((tag) => tag.toLowerCase().includes(searchLower)),
+      );
+    }
+
+    // Filter by selected tags
+    if (filters.selectedTags.length > 0) {
+      filtered = filtered.filter((post) =>
+        filters.selectedTags.some((tag) => post.tags.includes(tag)),
+      );
+    }
+
+    // Filter by date range
+    if (filters.dateRange !== "all") {
+      const now = new Date();
+      const cutoffDate = new Date();
+
+      switch (filters.dateRange) {
+        case "today":
+          cutoffDate.setHours(0, 0, 0, 0);
+          break;
+        case "week":
+          cutoffDate.setDate(now.getDate() - 7);
+          break;
+        case "month":
+          cutoffDate.setMonth(now.getMonth() - 1);
+          break;
+        case "year":
+          cutoffDate.setFullYear(now.getFullYear() - 1);
+          break;
+      }
+
+      filtered = filtered.filter(
+        (post) => new Date(post.created_at) >= cutoffDate,
+      );
+    }
+
+    // Sort posts
+    switch (filters.sortBy) {
+      case "oldest":
+        filtered.sort(
+          (a, b) =>
+            new Date(a.created_at).getTime() - new Date(b.created_at).getTime(),
+        );
+        break;
+      case "alphabetical":
+        filtered.sort((a, b) => a.title.localeCompare(b.title));
+        break;
+      case "popular":
+        // For now, sort by number of tags as a popularity proxy
+        filtered.sort((a, b) => b.tags.length - a.tags.length);
+        break;
+      case "newest":
+      default:
+        filtered.sort(
+          (a, b) =>
+            new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
+        );
+        break;
+    }
+
+    return filtered;
+  }, [posts, filters]);
 
   const allTags = Array.from(new Set(posts.flatMap((post) => post.tags))).slice(
     0,
