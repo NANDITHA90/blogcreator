@@ -266,16 +266,42 @@ export default function Index() {
             </div>
           </div>
 
-          {/* Search and Tags */}
+          {/* Search and Quick Actions */}
           <div className="max-w-2xl mx-auto space-y-4">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-              <Input
-                placeholder="Search posts, tags, or content..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 bg-white/80 backdrop-blur-sm border-brand-200 focus:border-brand-400"
-              />
+            <div className="flex space-x-2">
+              <div className="relative flex-1">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+                <Input
+                  placeholder="Quick search posts..."
+                  value={filters.searchTerm}
+                  onChange={(e) =>
+                    setFilters((prev) => ({
+                      ...prev,
+                      searchTerm: e.target.value,
+                    }))
+                  }
+                  className="pl-10 bg-white/80 backdrop-blur-sm border-brand-200 focus:border-brand-400"
+                />
+              </div>
+              <Button
+                variant="outline"
+                onClick={() => setShowFilters(!showFilters)}
+                className="bg-white/80 backdrop-blur-sm"
+              >
+                <Filter className="h-4 w-4 mr-2" />
+                Filters
+                {(filters.selectedTags.length > 0 ||
+                  filters.dateRange !== "all" ||
+                  filters.sortBy !== "newest") && (
+                  <Badge variant="secondary" className="ml-2">
+                    {[
+                      filters.selectedTags.length > 0 ? 1 : 0,
+                      filters.dateRange !== "all" ? 1 : 0,
+                      filters.sortBy !== "newest" ? 1 : 0,
+                    ].reduce((a, b) => a + b)}
+                  </Badge>
+                )}
+              </Button>
             </div>
 
             {allTags.length > 0 && (
@@ -283,9 +309,18 @@ export default function Index() {
                 {allTags.map((tag) => (
                   <Badge
                     key={tag}
-                    variant="outline"
+                    variant={
+                      filters.selectedTags.includes(tag) ? "default" : "outline"
+                    }
                     className="cursor-pointer hover:bg-brand-50 hover:border-brand-300 transition-colors"
-                    onClick={() => setSearchTerm(tag)}
+                    onClick={() =>
+                      setFilters((prev) => ({
+                        ...prev,
+                        selectedTags: prev.selectedTags.includes(tag)
+                          ? prev.selectedTags.filter((t) => t !== tag)
+                          : [...prev.selectedTags, tag],
+                      }))
+                    }
                   >
                     {tag}
                   </Badge>
