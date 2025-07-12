@@ -92,10 +92,18 @@ export class BlogAPI {
       await NetlifyBlogAPI.deletePost(id);
     } catch (error) {
       console.error("Error deleting post with Netlify API:", error);
+
+      // Provide helpful error message for development
+      if (import.meta.env.MODE === "development") {
+        throw new Error(
+          "QuickBlog is ready to deploy! In development mode, posts are read-only. Deploy to Netlify to enable full functionality.",
+        );
+      }
+
       throw new Error(
         error instanceof Error
           ? error.message
-          : "Failed to delete post with Netlify",
+          : "Failed to delete post with Netlify Functions",
       );
     }
   }
