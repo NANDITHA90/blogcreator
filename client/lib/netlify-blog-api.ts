@@ -63,14 +63,21 @@ export class NetlifyBlogAPI {
     if (import.meta.env.MODE === "development" && !this.isNetlifyAvailable) {
       const available = await this.checkNetlifyAvailability();
       if (!available) {
-        console.info("Netlify Functions not available in development");
-        return null;
+        console.info(
+          "Netlify Functions not available in development, checking demo storage",
+        );
+        // Check demo storage first
+        return DemoPostStorage.getDemoPostBySlug(slug);
       }
     }
 
     try {
       const response = await fetch(`${this.baseUrl}/blog-api/${slug}`);
       if (response.status === 404) {
+        // In development, fall back to demo storage
+        if (import.meta.env.MODE === "development") {
+          return DemoPostStorage.getDemoPostBySlug(slug);
+        }
         return null;
       }
       if (!response.ok) {
@@ -79,6 +86,10 @@ export class NetlifyBlogAPI {
       return await response.json();
     } catch (error) {
       console.warn("Error fetching post from Netlify:", error);
+      // In development, fall back to demo storage
+      if (import.meta.env.MODE === "development") {
+        return DemoPostStorage.getDemoPostBySlug(slug);
+      }
       return null;
     }
   }
