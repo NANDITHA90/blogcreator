@@ -104,8 +104,9 @@ export default function Index() {
       // Use sample data as fallback
       setPosts(samplePosts);
       toast({
-        title: "Using Demo Data",
-        description: "Unable to load posts. Currently showing sample data.",
+        title: "Loading Sample Data",
+        description:
+          "Showing sample posts while connecting to Netlify Functions.",
         variant: "default",
       });
     } finally {
