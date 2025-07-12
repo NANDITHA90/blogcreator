@@ -217,8 +217,11 @@ export class NetlifyBlogAPI {
     if (import.meta.env.MODE === "development") {
       const available = await this.checkNetlifyAvailability();
       if (!available) {
-        // Simulate successful deletion for demo purposes
-        console.info(`Demo mode: Simulated deletion of post ${id}`);
+        // Delete from demo storage
+        const deleted = DemoPostStorage.deleteDemoPost(id);
+        console.info(
+          `Demo mode: ${deleted ? "Deleted" : "Attempted to delete"} post ${id}`,
+        );
         return;
       }
     }
