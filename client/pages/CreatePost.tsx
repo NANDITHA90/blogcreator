@@ -444,22 +444,20 @@ export default function CreatePost() {
                 <CardTitle>Publish</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                {!BlogAPI.isSupabaseConfigured() && (
-                  <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg">
-                    <div className="flex items-start space-x-2">
-                      <FileText className="h-4 w-4 text-blue-600 mt-0.5" />
-                      <div className="text-sm">
-                        <p className="font-medium text-blue-800 mb-1">
-                          Demo Mode
-                        </p>
-                        <p className="text-blue-700">
-                          Connect to Supabase through MCP Servers to save real
-                          posts. Buttons below will show preview mode.
-                        </p>
-                      </div>
+                <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
+                  <div className="flex items-start space-x-2">
+                    <FileText className="h-4 w-4 text-green-600 mt-0.5" />
+                    <div className="text-sm">
+                      <p className="font-medium text-green-800 mb-1">
+                        Netlify Backend
+                      </p>
+                      <p className="text-green-700">
+                        Your blog is powered by Netlify Functions and Blob
+                        storage. Posts will be saved to your Netlify deployment.
+                      </p>
                     </div>
                   </div>
-                )}
+                </div>
 
                 <div className="flex flex-col space-y-2">
                   <Button
