@@ -1,43 +1,31 @@
 [build]
-  # Build command for your React app
   command = "npm run build"
-  # Directory to publish
   publish = "dist/spa"
-  # Functions directory
   functions = "netlify/functions"
 
 [build.environment]
-  # Node version for functions
   NODE_VERSION = "18"
 
-# Redirect all paths to index.html for SPA routing
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
-  conditions = {Role = ["admin"]}
 
-# API routes go to functions
 [[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/:splat"
   status = 200
 
-# Development settings
 [dev]
   command = "npm run dev"
   port = 8080
   publish = "dist/spa"
   functions = "netlify/functions"
 
-# Function settings
 [functions]
-  # Timeout for functions (max 10 seconds for free tier)
   timeout = 10
-  # Memory allocation
   memory = 128
 
-# Headers for security
 [[headers]]
   for = "/*"
   [headers.values]
@@ -46,7 +34,6 @@
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
 
-# Headers for API
 [[headers]]
   for = "/api/*"
   [headers.values]
