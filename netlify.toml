@@ -22,8 +22,11 @@
   publish = "dist/spa"
   functions = "netlify/functions"
 
-[functions]
-  timeout = 10
+
+[functions."*"]
+
+  # timeout = 10
+
   memory = 128
 
 [[headers]]
