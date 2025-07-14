@@ -4,7 +4,7 @@ import { DemoPostStorage } from "./demo-storage";
 export class NetlifyBlogAPI {
   private static baseUrl =
     import.meta.env.MODE === "production"
-      ? "/.netlify/functions"
+      ? ""
       : "http://localhost:8888/.netlify/functions";
 
   private static isNetlifyAvailable = false;
@@ -43,7 +43,7 @@ export class NetlifyBlogAPI {
     }
 
     try {
-      const response = await fetch(`${this.baseUrl}/blog-api`);
+      const response = await fetch(`${this.baseUrl}/.netlify/functions/blog-api`);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -72,7 +72,7 @@ export class NetlifyBlogAPI {
     }
 
     try {
-      const response = await fetch(`${this.baseUrl}/blog-api/${slug}`);
+      const response = await fetch(`${this.baseUrl}/.netlify/functions/blog-api/${slug}`);
       if (response.status === 404) {
         // In development, fall back to demo storage
         if (import.meta.env.MODE === "development") {
@@ -122,7 +122,7 @@ export class NetlifyBlogAPI {
     }
 
     try {
-      const response = await fetch(`${this.baseUrl}/blog-api`, {
+      const response = await fetch(`${this.baseUrl}/.netlify/functions/blog-api`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -186,7 +186,7 @@ export class NetlifyBlogAPI {
     }
 
     try {
-      const response = await fetch(`${this.baseUrl}/blog-api/${id}`, {
+      const response = await fetch(`${this.baseUrl}/.netlify/functions/blog-api/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -227,7 +227,7 @@ export class NetlifyBlogAPI {
     }
 
     try {
-      const response = await fetch(`${this.baseUrl}/blog-api/${id}`, {
+      const response = await fetch(`${this.baseUrl}/.netlify/functions/blog-api/${id}`, {
         method: "DELETE",
       });
 

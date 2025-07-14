@@ -46,13 +46,13 @@ export default async (req: Request, context: Context) => {
   }
 
   const url = new URL(req.url);
-  const pathname = url.pathname.replace("/api/blog-posts", "");
+  const pathname = url.pathname.replace("/.netlify/functions/blog-api", "");
   const method = req.method;
 
   const store = getBlogStore();
 
   try {
-    // GET /api/blog-posts - Get all posts
+    // GET all posts
     if (method === "GET" && pathname === "") {
       const posts = await store.list();
       const allPosts: BlogPost[] = [];
@@ -79,7 +79,7 @@ export default async (req: Request, context: Context) => {
       });
     }
 
-    // GET /api/blog-posts/{slug} - Get post by slug
+    // GET post by slug
     if (method === "GET" && pathname.startsWith("/")) {
       const slug = pathname.substring(1);
       const posts = await store.list();
@@ -106,7 +106,7 @@ export default async (req: Request, context: Context) => {
       });
     }
 
-    // POST /api/blog-posts - Create new post
+    // POST - Create new post
     if (method === "POST" && pathname === "") {
       const body = await req.json();
       const { title, content, excerpt, tags = [], status = "draft" } = body;
@@ -151,7 +151,7 @@ export default async (req: Request, context: Context) => {
       });
     }
 
-    // PUT /api/blog-posts/{id} - Update post
+    // PUT - Update post
     if (method === "PUT" && pathname.startsWith("/")) {
       const id = pathname.substring(1);
       const body = await req.json();
@@ -190,7 +190,7 @@ export default async (req: Request, context: Context) => {
       });
     }
 
-    // DELETE /api/blog-posts/{id} - Delete post
+    // DELETE post
     if (method === "DELETE" && pathname.startsWith("/")) {
       const id = pathname.substring(1);
 
@@ -239,5 +239,5 @@ export default async (req: Request, context: Context) => {
 };
 
 export const config: Config = {
-  path: "/api/blog-posts/*",
+  path: "/blog-api/*",
 };
